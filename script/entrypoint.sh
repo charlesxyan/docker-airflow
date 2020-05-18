@@ -47,7 +47,7 @@ if [ "$AIRFLOW__CORE__EXECUTOR" != "SequentialExecutor" ]; then
   # Check if the user has provided explicit Airflow configuration concerning the database
   if [ -z "$AIRFLOW__CORE__SQL_ALCHEMY_CONN" ]; then
     # Default values corresponding to the default compose files
-    : "${POSTGRES_HOST:="postgres"}"
+    : "${POSTGRES_HOST:="postbiostar-xubuntu"}"
     : "${POSTGRES_PORT:="5432"}"
     : "${POSTGRES_USER:="airflow"}"
     : "${POSTGRES_PASSWORD:="airflow"}"
@@ -109,7 +109,7 @@ fi
 
 case "$1" in
   webserver)
-    airflow initdb
+    airflow upgradedb
     if [ "$AIRFLOW__CORE__EXECUTOR" = "LocalExecutor" ] || [ "$AIRFLOW__CORE__EXECUTOR" = "SequentialExecutor" ]; then
       # With the "Local" and "Sequential" executors it should all run in one container.
       airflow scheduler &
